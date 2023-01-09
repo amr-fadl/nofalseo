@@ -72,7 +72,7 @@
             <a href="{{ url('/') }}" class="brand-link pt-4 pb-3">
                 <img src="{{ asset('admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Portfolio</span>
+                <span class="brand-text font-weight-light">admin</span>
             </a>
 
             <!-- Sidebar -->
@@ -94,10 +94,10 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
+                            <a href="{{ route('post.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
-                                    Widgets
+                                    all post
                                     <span class="right badge badge-danger">New</span>
                                 </p>
                             </a>
@@ -110,7 +110,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper pt-3">
+        <div class="content-wrapper pt-3 pb-5">
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
