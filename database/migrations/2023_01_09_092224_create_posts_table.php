@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('content');
             $table->foreignId('user_id')->constrained('users','id');
             $table->string('image')->default('default.png');
-            $table->string('soft_delete')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

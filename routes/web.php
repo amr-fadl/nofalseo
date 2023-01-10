@@ -16,19 +16,23 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('dashboard/post', PostController::class);
+
+    // welcome
+    Route::get('/', [PostController::class , 'index']);
+
+    // profile
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // post
+    Route::resource('/post', PostController::class);
+    Route::get('dashboard/archive', [PostController::class , 'trashed'])->name('post.archive');
+    Route::post('dashboard/archive/{id}/force_delete', [PostController::class , 'trashedDelete'])->name('post.archive.destroy');
+    Route::post('dashboard/archive/{id}/restore', [PostController::class , 'trashedRestore'])->name('post.archive.restore');
+
+    // comment
     Route::resource('dashboard/comment', CommentController::class);
 });
 

@@ -1,29 +1,63 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="card col-4 pt-2 ml-3">
-        <img src="{{ asset('storage/' . $post->image) }}" style="max-height: 250px; object-fit: cover" class="card-img-top"
-            alt="...">
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item pl-0 pr-0 pt-0">
-                    <h5 class="card-title d-flex justify-content-between w-100">name
-                        <span>{{ $post->name }}</span>
-                    </h5>
-                </li>
-                <li class="list-group-item pl-0 pr-0 {{-- count($post->Children) == 0 ? 'border-bottom-0' : '' --}}">
-                    <h5 class="card-title d-flex justify-content-between w-100">category
-                        <span>{{ $post->Category->name ?? 'no post' }}</span>
-                    </h5>
-                </li>
-                <li class="list-group-item pl-0 pr-0 {{-- count($post->Children) == 0 ? 'border-bottom-0' : '' --}}">
-                    <h5 class="card-title d-flex justify-content-between w-100">price
-                        <span>{{ $post->price ?? 'no post' }}</span>
-                    </h5>
-                </li>
-                <a href="{{ route('post.index') }}" class="btn btn-primary">Go Back</a>
-            </ul>
-        </div>
+    <div class="col-12 card-primary">
+        <!-- form start -->
+        {{-- Posts [ id, title, author, content,image, date , soft delete ] --}}
+        <form role="form" method="POST" action="{{ route('post.update' , $post->id) }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">{{ $post->title }}</label>
+                    <input type="text" name="title" class="form-control" value="{{ $post->title }}">
+                    @error('title')
+                        <div class="alert mt-2 alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <input type="hidden" value="{{ Auth::user()->id }}" name="author">
+                    <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">post content</label>
+                    <textarea name="content" id="" class="form-control" cols="30" rows="10">{{ $post->content }}</textarea>
+                    @error('content')
+                        <div class="alert mt-2 alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="custom-file">
+                            {{-- <x-text-input type="file" onchange="showPrev(event)" value=""
+                                            class="custom-file-input" name="image" required /> --}}
+                            <input type="file" onchange="showPrev(event)" value="" class="custom-file-input"
+                                name="image">
+                                {{-- @dd($post->image) --}}
+                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                            <script>
+                                function showPrev(event) {
+                                    event.target.files.length > 0 ? document.querySelector('._img').src = URL.createObjectURL(event.target
+                                        .files[0]) : '';
+                                }
+                            </script>
+                            <label class="custom-file-label" for="exampleInputFile">Choose image</label>
+                        </div>
+                    </div>
+                    @error('image')
+                        <div class="alert mt-2 alert-danger">{{ $message }}</div>
+                    @enderror
+                    <img class="d-block mt-3 _img" style="width: 150px"
+                    src="{{ asset('uploads/posts/'.$post->image) }}" alt="">
+                </div>
+
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-outline-success">update</button>
+            </div>
+        </form>
     </div>
 @endsection
 
