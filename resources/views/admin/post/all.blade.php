@@ -10,20 +10,16 @@
             <div class="card col-7 pt-2 mt-5 ml-auto mb-0 mr-auto bg-transparent">
                 <div class="m-3 d-flex justify-content-between">
                     <div>
-                        <img src="{{ asset('uploads/users/' . $singlData->user->image) }}"
+                        <img src="{{ asset('uploads/posts/' . $singlData->user->image) }}"
                             style="height: 40px; width: 40px; object-fit: cover" class="img-circle elevation-2"
                             alt="..."><span class="pl-2">{{ $singlData->user->name }}</span>
                     </div>
                     @if ($singlData->user->id == Auth::user()->id)
-                    <div class="d-flex">
-                        <a href="{{ route('post.show', ['post' =>  $singlData->id]) }}" class="btn btn-info">edit</a>
-                        <form method="POST" action="{{ route('post.destroy', $singlData->id) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('are you sure')" class="btn w-auto btn btn-danger  ml-2">delete</button>
-                        </form>
-                    </div>
-
+                    <form method="POST" action="{{ route('post.destroy', $singlData->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('are you sure')" class="btn bg-transparent w-auto">x</button>
+                    </form>
                     @endif
                 </div>
                 <img src="{{ asset('uploads/posts/' . $singlData->image) }}"
@@ -41,7 +37,7 @@
                             <div class="w-100">
                                 @foreach ($singlData->Comments as $singlComm)
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('uploads/users/' . $singlComm->User->image) }}"
+                                        <img src="{{ asset('uploads/posts/' . $singlData->user->image) }}"
                                             style="height: 40px; width: 40px; object-fit: cover"
                                             class="img-circle elevation-2" alt="...">
                                         <div class="bg-white p-2 ml-2 mb-2 rounded">{{ $singlComm->comment }}</div>
@@ -56,6 +52,8 @@
                                 @endforeach
                             </div>
                         </li>
+
+                        <a href="{{ route('post.edit', ['post' =>  $singlData->id]) }}" class="btn btn-primary">edit</a>
 
                         <form class="form-inline" method="POST" action="{{ route('comment.index') }}">
                             @csrf
